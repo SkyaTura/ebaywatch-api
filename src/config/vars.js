@@ -7,6 +7,11 @@ export const env = process.env.NODE_ENV || 'development'
 export const isDev = env === 'development'
 export const isProd = env === 'production'
 
+export const cors = {
+  origins: (process.env.CORS_ORIGINS || '').split(','),
+  methods: (process.env.CORS_METHODS || '').split(','),
+}
+
 export const server = {
   host: process.env.HOST || '0.0.0.0',
   port: process.env.PORT || 4000,

@@ -1,7 +1,7 @@
 import Hapi from 'hapi'
 import cors from 'hapi-cors'
 import octopus from 'hapi-octopus'
-import { server as serverOptions } from './vars'
+import { cors as corsOptions, server as serverOptions } from './vars'
 
 export default async () => {
   try {
@@ -10,10 +10,7 @@ export default async () => {
     const src = `${process.cwd()}/src`
     await server.register({
       plugin: cors,
-      options: {
-        origins: ['http://localhost:3000'],
-        methods: ['POST, GET, PUT, OPTIONS'],
-      },
+      options: corsOptions,
     })
     await server.register({
       plugin: octopus,
