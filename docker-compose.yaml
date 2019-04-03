@@ -1,0 +1,52 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  api:
+    build: .
+    ports:
+      - "4000:80"
+    environment:
+      # Options: production, development
+      NODE_ENV: development
+
+      # Server listening port
+      HOST: 0.0.0.0
+      PORT: 80
+
+      # MongoDB connection options (development environment)
+      MONGO_URI: mongodb://mongo/admin
+      MONGO_DATABASE: ebaywatch
+      MONGO_USER: root
+      MONGO_PASSWORD: example
+
+      #MailGun
+      MAILGUN_DOMAIN:
+      MAILGUN_API_KEY:
+
+  mongo:
+    image: mongo
+    command: mongod --port 27017 --auth
+    ports:
+      - "27017:27017"
+    volumes:
+      - db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+volumes:
+  db:
+
